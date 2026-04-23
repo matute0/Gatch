@@ -1,8 +1,9 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, View, Text, TextInput, Pressable, Animated } from "react-native";
+import { StyleSheet,Image, View, Text, TextInput, Pressable, Animated } from "react-native";
 import { Stack } from "expo-router";
 import { useState, useRef } from "react";
 import { registerFetch } from "./scripts/user";
+import EyeVisible from ""
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
@@ -36,10 +37,13 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [passwordHide, setPasswordHide] = useState(true);
+  const eyeSvg = passwordHide ? require("../assets/images/eye-closed-bold.png") : require("../assets/images/eye-outline.png");
 
   const signon = async () => {
     if (!username || !email || !password) {
-      alert("Please complete all fields.");
+      setError("Please complete all fields.");
       return;
     }
 
@@ -52,7 +56,9 @@ export default function Register() {
 
       await registerFetch(newUser);
       alert("Register complete!");
+      setError("");
     } catch (error: any) {
+      setError(error.message);
       console.error("Error:", error.message);
     }
   };
@@ -84,15 +90,24 @@ export default function Register() {
             autoCapitalize="none" 
           />
           
-          <SmoothInput 
-            style={style.input} 
+          <View style={style.password}>
+            <SmoothInput 
+            style={[style.input, style.passinput]} 
             placeholder="Password" 
             placeholderTextColor='white' 
             value={password} 
             onChangeText={setPassword} 
-            secureTextEntry={true} 
+            secureTextEntry={passwordHide} 
             autoCapitalize="none" 
           />
+          <Pressable style={style.passwordH} onPress={() =>{setPasswordHide(!passwordHide)}}>
+            <Image source={eyeSvg} style={style.iconImage} resizeMode="contain"/>
+          </Pressable>
+
+          </View>
+          
+
+          {error ? <Text style={style.error}>{error}</Text> : null}
           
           <Pressable onPress={signon} style={style.button}>
             <Text style={style.buttonText}>Register</Text>
@@ -147,6 +162,29 @@ const style = StyleSheet.create({
   buttonText: {
     color: 'black',
     fontSize: 20,
+  },
+  error: {
+    color: 'red',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  password: {
+    flexDirection: 'row',    
+  },
+  passwordH:{
+        alignContent: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 50,
+  },
+  passinput: {
+    width: 275,
+  },
+  iconImage: {
+    filter:' invert(100%)',
+    width: 40,
+    height: 40,
+    marginLeft: 10,
   }
   
 });
