@@ -1,8 +1,9 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, Image, View, Text, TextInput, Pressable, Animated } from "react-native";
+import { ActivityIndicator,StyleSheet, Image, View, Text, TextInput, Pressable, Animated } from "react-native";
 import { router, Stack } from "expo-router";
 import { useState, useRef, useEffect } from "react";
 import { registerFetch } from "./scripts/user";
+import {useEmailStore} from "./stores/useEmailStore"
 
 const USERNAME_REGEX = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9_]+$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -51,12 +52,16 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [passwordHide, setPasswordHide] = useState(true);
+
+  const setEmailGlobal = useEmailStore((state) => state.setEmail);
   
   const eyeSvg = passwordHide ? require("../assets/images/eye-closed-bold.png") : require("../assets/images/eye-outline.png");
 
   const isUsernameInvalid = username.length > 0 && !USERNAME_REGEX.test(username);
   const isEmailInvalid = email.length > 0 && !EMAIL_REGEX.test(email);
   const isPasswordInvalid = password.length > 0 && !PASSWORD_REGEX.test(password);
+
+  const [isLoading, setLoading] = useState(false);
 
   const signon = async () => {
     if (!username || !email || !password) {
@@ -75,12 +80,15 @@ export default function Register() {
         password: password 
       };
       setError("");
+      setLoading(true);
       await registerFetch(newUser);
+      setLoading(false);
+      setEmailGlobal(email);
       alert("Register complete!");
       router.push("/ActivateAccount");
     } catch (error: any) {
+      setLoading(false);
       setError(error.message);
-      console.error("Error:", error.message);
     }
   };
 
@@ -155,14 +163,21 @@ export default function Register() {
           
         </View>
         <View style={style.viewButton}>
-          <Pressable onPress={signon} style={style.button}>
+          <Pressable onPress={signon} style={style.button} disabled={isLoading}>
             <Text style={style.buttonText}>Join now</Text>
+            
           </Pressable>
           
           {error ? <Text style={style.error}>{error}</Text> : null}
         </View>
         
       </SafeAreaView>
+      {isLoading && (
+        <View style={style.loadingOverlay}>
+          <ActivityIndicator size="large" color="#ffffff" />
+          <Text style={style.loadingText}>Creating account...</Text>
+        </View>
+      )}
     </>
   );
 }
@@ -248,5 +263,19 @@ const style = StyleSheet.create({
   viewInput:{
     flex: 1,
     gap: 15,
+  },
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 999, 
+    elevation: 10,
+  },
+  loadingText: {
+    color: 'white',
+    marginTop: 15,
+    fontSize: 18,
+    fontWeight: 'bold',
   }
 });

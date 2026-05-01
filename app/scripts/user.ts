@@ -24,4 +24,31 @@ export const registerFetch = async (userSave: User) => {
     }
 }
 
+export const activateUser = async (email: string, code: string) => {
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
+    try{
+        const response = await fetch(`${API_URL}/user/token/activate?token=${code}&email=${email}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": 'application/json',
+            }
+        })
+      const rawText = await response.text();
+
+        if(!response.ok){
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Error");
+        }
+        try {
+            return JSON.parse(rawText);
+        } catch (parseError) {
+            return rawText; 
+        }
+        
+    } catch(error){
+        console.error("Error");
+        throw error;
+    }
+}
+
 

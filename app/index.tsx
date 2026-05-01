@@ -17,7 +17,7 @@ export default function Index() {
       <Text style={style.textFind}>Find your perfect game</Text>
     </View>
     <View style={style.buttons}>
-    <Pressable style={style.button}><Text style={style.buttonText}>Login</Text></Pressable>
+    <Pressable onPress={()=> {router.push("/ActivateAccount")}} style={style.button}><Text style={style.buttonText}>Login</Text></Pressable>
     <Pressable onPress={()=> {router.push("/register")}} style={style.button}><Text style={style.buttonText}>Register</Text></Pressable>
     </View>
     
