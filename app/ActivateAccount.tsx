@@ -13,6 +13,7 @@ export default function VerificationCode() {
   const [error, setError] = useState("");
   
   const userMail = useEmailStore((state) => state.email);
+  const clearMail = useEmailStore((state) => state.clearEmail);
 
   const codeLength = 6;
   const digits = new Array(codeLength).fill(0);
@@ -38,6 +39,7 @@ const handleBoxPress = (index) => {
       await activateUser(userMail, code)
       setLoading(false);
       alert("Welcome!");
+      clearMail();
     } catch(error: any){
       setLoading(false);
       setError(error.message);
