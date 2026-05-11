@@ -17,7 +17,7 @@ export default function Index() {
       <Text style={style.textFind}>Find your perfect game</Text>
     </View>
     <View style={style.buttons}>
-    <Pressable onPress={()=> {router.push("/ActivateAccount")}} style={style.button}><Text style={style.buttonText}>Login</Text></Pressable>
+    <Pressable onPress={()=> {router.push("/login")}} style={style.button}><Text style={style.buttonText}>Login</Text></Pressable>
     <Pressable onPress={()=> {router.push("/register")}} style={style.button}><Text style={style.buttonText}>Register</Text></Pressable>
     </View>
     
@@ -27,7 +27,7 @@ export default function Index() {
 const style = StyleSheet.create({
     container:{
       flex: 1,
-      backgroundColor: 'rgb(46, 0, 88)67'
+      backgroundColor: 'rgba(29, 0, 56, 1)',
     },
     view: {
       flex: 1,
