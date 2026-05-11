@@ -2,8 +2,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator,StyleSheet, Image, View, Text, TextInput, Pressable, Animated } from "react-native";
 import { router, Stack } from "expo-router";
 import { useState, useRef, useEffect } from "react";
-import { registerFetch } from "./scripts/user";
-import {useEmailStore} from "./stores/useEmailStore"
+import { registerFetch } from "../scripts/user";
+import {useEmailStore} from "../stores/useEmailStore"
 
 const USERNAME_REGEX = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9_]+$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

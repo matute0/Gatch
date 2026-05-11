@@ -1,7 +1,10 @@
+import { AuthRequest } from "@/types/AuthRequest";
 import { User } from "../models/user/user";
+import * as SecureStore from 'expo-secure-store';
+
+    const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export const registerFetch = async (userSave: User) => {
-    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     try{
         const response = await fetch(`${API_URL}/user/create`, {
             method: "POST",
@@ -25,7 +28,6 @@ export const registerFetch = async (userSave: User) => {
 }
 
 export const activateUser = async (email: string, code: string) => {
-    const API_URL = process.env.EXPO_PUBLIC_API_URL;
     try{
         const response = await fetch(`${API_URL}/user/token/activate?token=${code}&email=${email}`, {
             method: "PATCH",
@@ -47,6 +49,28 @@ export const activateUser = async (email: string, code: string) => {
         
     } catch(error){
         console.error("Error");
+        throw error;
+    }
+}
+
+export const login = async (auth: AuthRequest)=>{
+    try{
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(auth),
+        });
+
+        if(!response.ok){
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Error");
+        }
+        const tokenString = await response.text();
+        await SecureStore.setItemAsync('jwt', tokenString);
+    } catch(error){
+        console.error("Error")
         throw error;
     }
 }

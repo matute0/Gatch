@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import {ActivityIndicator, View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import { Stack } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { activateUser } from './scripts/user';
-import { useEmailStore } from './stores/useEmailStore';
+import { activateUser } from '../scripts/user';
+import { useEmailStore } from '../stores/useEmailStore';
 
 export default function VerificationCode() {
   const [code, setCode] = useState('');
@@ -112,7 +112,7 @@ const handleBoxPress = (index) => {
     {isLoading && (
             <View style={styles.loadingOverlay}>
               <ActivityIndicator size="large" color="#ffffff" />
-              <Text style={styles.loadingText}>Creating account...</Text>
+              <Text style={styles.loadingText}>Activating account...</Text>
             </View>
           )}
     
