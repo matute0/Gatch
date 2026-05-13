@@ -19,7 +19,7 @@ export default function Home() {
                     setToken("No se encontró ningún token");
                 }
             } catch (error) {
-                setToken("Error al leer el token");
+                setToken("Error");
             }
         };
 

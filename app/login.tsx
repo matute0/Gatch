@@ -103,11 +103,17 @@ const signin = async () => {
                                   
                                 </View>
             </View>
+            
             <View style={styles.viewButton}>
                 <Pressable onPress={signin} style={styles.button} disabled={isLoading}>
                         <Text style={styles.buttonText}>Enter</Text>
                         
                       </Pressable>
+            </View>
+            <View>
+              <Pressable style={styles.pressForgot} onPress={() => (router.navigate("/resetpassword"))}>
+              <Text style={styles.textForgot}>Forgot your password?</Text>
+              </Pressable>
             </View>
             
          {error ? <Text style={styles.error}>{error}</Text> : null}
@@ -126,6 +132,16 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: 'rgba(29, 0, 56, 1)',
+    },
+    textForgot:{
+      color: 'rgb(177, 177, 177)',
+      textAlign: 'center',
+      fontSize: 15,
+      marginTop: 15,
+    },
+    pressForgot: {
+      alignSelf: 'center',
+      width: 200,
     },
     logintext:{
         color: 'white',
