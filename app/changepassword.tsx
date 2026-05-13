@@ -69,7 +69,6 @@ export default function ChangePassword() {
       code: code,
       password: password
     }
-    console.log(pwRequest)
     await changePassword(pwRequest);
     setIsLoading(false);
     alert("Password changed.")
