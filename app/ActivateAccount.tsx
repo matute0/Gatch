@@ -112,7 +112,7 @@ const handleBoxPress = (index) => {
     {isLoading && (
             <View style={styles.loadingOverlay}>
               <ActivityIndicator size="large" color="#ffffff" />
-              <Text style={styles.loadingText}>Activating account...</Text>
+              <Text style={styles.loadingText}>Sending code...</Text>
             </View>
           )}
     

@@ -28,27 +28,35 @@ export const registerFetch = async (userSave: User) => {
 }
 
 export const activateUser = async (email: string, code: string) => {
-    try{
+    try {
         const response = await fetch(`${API_URL}/user/token/activate?token=${code}&email=${email}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": 'application/json',
             }
-        })
-      const rawText = await response.text();
+        });
 
-        if(!response.ok){
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Error");
+        const rawText = await response.text();
+
+        if (!response.ok) {
+            let errorMessage = "Error";
+            try {
+                const errorData = JSON.parse(rawText);
+                errorMessage = errorData.message || errorMessage;
+            } catch (e) {
+                errorMessage = rawText || errorMessage; 
+            }
+            throw new Error(errorMessage);
         }
+
         try {
             return JSON.parse(rawText);
         } catch (parseError) {
             return rawText; 
         }
         
-    } catch(error){
-        console.error("Error");
+    } catch (error) {
+        console.error("Error:", error);
         throw error;
     }
 }
