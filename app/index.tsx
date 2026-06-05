@@ -18,7 +18,7 @@ export default function Index() {
 
   useEffect(() => {
     offset.value = withRepeat(
-      withTiming(100, { duration: 4000, easing: Easing.bezier(0.5, 0, 0.5, 1) }),
+      withTiming(200, { duration: 6000, easing: Easing.bezier(0.5, 0, 0.5, 1) }),
       -1,
       true 
     );
@@ -33,7 +33,7 @@ export default function Index() {
   return (
     <View style={styles.mainContainer}>
       <AnimatedGradient
-        colors={['#9165c3', '#7039A5', '#4b1f79', '#2d035b']}
+        colors={['#b56cdc', '#7713AE', '#510E76', '#2d035b']}
         style={[styles.gradient, animatedStyle]}
         start={{ x: 0.4, y: 0 }}
         end={{ x: 1, y: 0.5 }}
@@ -48,10 +48,30 @@ export default function Index() {
         </View>
 
         <View style={styles.buttonContainer}>
-          <Pressable onPress={() => router.push("/login")} style={[styles.button, styles.loginButton]}>
+          <Pressable 
+            onPress={() => router.push("/login")} 
+            style={({ pressed }) => [
+              styles.button, 
+              { 
+                backgroundColor: pressed ? '#4F259D' : '#936CDC', 
+                transform: [{ scale: pressed ? 0.98 : 1 }] 
+              }
+            ]}
+          >
             <Text style={styles.loginButtonText}>Login</Text>
           </Pressable>
-          <Pressable onPress={() => router.push("/register")} style={[styles.button, styles.outlineButton]}>
+
+          <Pressable 
+            onPress={() => router.push("/register")} 
+            style={({ pressed }) => [
+              styles.button, 
+              styles.outlineButton,
+              { 
+                borderColor: pressed ? '#B9B8B9' : '#936CDC', 
+                transform: [{ scale: pressed ? 0.98 : 1 }] 
+              }
+            ]}
+          >
             <Text style={styles.outlineButtonText}>Sign up</Text>
           </Pressable>
         </View>
@@ -68,13 +88,12 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   safeArea: { flex: 1, paddingHorizontal: 20 },
-  content: { flex: 1, justifyContent: 'flex-end' },
+  content: { flex: 1, justifyContent: 'flex-end', marginBottom: 20 },
   title: { fontSize: 48, fontFamily: 'Outfit_900Black', color: 'white', lineHeight: 55 },
-  subtitle: { color: 'white', fontSize: 16, marginTop: 10, opacity: 0.8, fontFamily: 'Outfit_400Regular' },
-  buttonContainer: { paddingBottom: 40, gap: 15, marginTop: 30 },
+  subtitle: { color: 'white', fontSize: 16, marginTop: 10, opacity: 0.9, fontFamily: 'Outfit_400Regular' },
+  buttonContainer: { paddingBottom: 120, gap: 15, marginTop: 30 },
   button: { height: 55, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  loginButton: { backgroundColor: '#936CDC' },
   loginButtonText: { color: 'white', fontSize: 18, fontFamily: 'Outfit_600SemiBold' },
-  outlineButton: { borderWidth: 1, borderColor: '#936CDC' },
+  outlineButton: { borderWidth: 2, borderColor: '#936CDC' },
   outlineButtonText: { color: 'white', fontSize: 18, fontFamily: 'Outfit_400Regular' },
 });
